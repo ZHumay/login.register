@@ -11,7 +11,6 @@ const initialState = {
 }
 
 
-//middleware
 export const register = createAsyncThunk(
     "api/register",
     async (userData, { rejectWithValue }) => {
@@ -30,7 +29,6 @@ export const confrim = createAsyncThunk(
         try {
             let res = await axios.post('http://localhost:3002/api/webuser/confirm', userData);
             console.log("data", res.data)
-         //   localStorage.setItem('token', res.data.token);
             return res.data.token;
         } catch (error) {
             return rejectWithValue(error);

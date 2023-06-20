@@ -12,9 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { confrim, register ,getToken } from "../../store/userSlice";
 import { paperStyle } from "./AuthStyles";
 import { confirmValidation, singUpValidations } from "./validations";
+import { useNavigate } from 'react-router-dom';
 export const Confirm = () => {
     let dispatch = useDispatch();
-    //console.log("ss")
+let navigate=useNavigate()
     const { email, loading, error ,token ,succes } = useSelector(state => state.userReducer);
     console.log(email)
     const { handleSubmit, handleChange, touched, values, errors } = useFormik({
@@ -27,6 +28,7 @@ export const Confirm = () => {
             values.email=email
             console.log(values)
               dispatch(confrim(values))
+              navigate("/")
         },
     });
 
@@ -34,7 +36,6 @@ export const Confirm = () => {
         if (!error) {
             console.log(token)
             dispatch(getToken(token))
-           // console.log("ssssssssssss" , succes)
         }
       }, [error]);
     
@@ -44,10 +45,10 @@ export const Confirm = () => {
             <Paper elevation={20} style={paperStyle}>
                 <Grid textAlign="center" marginBottom={2}>
                     <Typography variant="h5" fontWeight="bold">
-                        Confirm
+                       Verify
             </Typography>
                     <Typography variant="caption">
-                        Please fill this from to confrim !
+                        Please fill this from to confirm !
             </Typography>
                 </Grid>
                 <Grid>

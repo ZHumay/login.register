@@ -27,7 +27,6 @@ export const RegisterPage = () => {
     },
     validationSchema: singUpValidations,
     onSubmit: ({ email, password }, bag) => {
-      console.log("Jjj")
       const value = {
         email: email,
         password: password,
