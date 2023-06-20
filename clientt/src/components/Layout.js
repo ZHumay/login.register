@@ -38,7 +38,7 @@ export const Layout = () => {
             <>
               <Button
                 component={NavLink}
-                to="/login"
+                to="/signin"
                 variant="outlined"
                 color="inherit"
               >
@@ -46,7 +46,7 @@ export const Layout = () => {
               </Button>
               <Button
                 component={NavLink}
-                to="/api/webuser/register"
+                to="/signup"
                 variant="outlined"
                 color="inherit"
               >

@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 const db = {
     connect: async () => {
         try {
-            await mongoose.connect("mongodb+srv://humay:BqhBkNhh2J3C99u9@cluster0.xpk0pdu.mongodb.net/");
+            await mongoose.connect("mongodb+srv://frontend:HFJwpjyrwXb3yShw@cluster0.x7fyasm.mongodb.net/");
             console.log('CONNECTED!');
 
         } catch (err) {
@@ -12,7 +12,6 @@ const db = {
         }
     }
 }
-
 module.exports = {
     db
 }

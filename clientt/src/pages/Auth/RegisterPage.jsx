@@ -1,6 +1,3 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -10,72 +7,74 @@ import {
   Alert,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { register } from "../../store/userSlice";
 import { paperStyle } from "./AuthStyles";
-import { signUpValidations } from "./validations";
-import {
-  registerUserAsync,
-  confirmUserAsync,
-} from "../../slices/userSlice";
-
-const RegisterPage = () => {
-  const dispatch = useDispatch();
+import { singUpValidations } from "./validations";
+export const RegisterPage = () => {
+  //use Formik
+  let dispatch = useDispatch();
   const navigate = useNavigate();
-  const { registrationStatus, confirmationCode, error } = useSelector(
-    (state) => state.user
-  );
-
-  useEffect(() => {
-    if (registrationStatus === "succeeded" && confirmationCode) {
-      navigate(`/confirm/${confirmationCode}`);
-    }
-  }, [registrationStatus, confirmationCode, navigate]);
-
-  const {
-    handleSubmit,
-    handleChange,
-    touched,
-    values,
-    errors,
-  } = useFormik({
+  const { email, loading, error } = useSelector(state => state.userReducer);
+  const { handleSubmit, handleChange, touched, values, errors } = useFormik({
     initialValues: {
+      username: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
-    validationSchema: signUpValidations,
-    onSubmit: ({ email, password }) => {
-      dispatch(registerUserAsync({ email, password })).then((action) => {
-        const confirmCode = action.payload;
-        if (confirmCode) {
-          dispatch(confirmUserAsync(confirmCode)).then(() => {
-            navigate(`/confirm/${confirmCode}`);
-          });
-        }
-      });
+    validationSchema: singUpValidations,
+    onSubmit: ({ email, password }, bag) => {
+      console.log("Jjj")
+      const value = {
+        email: email,
+        password: password,
+      };
+      dispatch(register(value))
+    
     },
   });
+  useEffect(() => {
+    if (!error) {
+      navigate("/confirm");
+    }
+  }, [error]);
+
 
   return (
     <Grid>
       <Paper elevation={20} style={paperStyle}>
-        <Grid textalign="center" marginBottom={2}>
+        <Grid textAlign="center" marginBottom={2}>
           <Typography variant="h5" fontWeight="bold">
-            Register
-          </Typography>
+            Sign Up
+            </Typography>
           <Typography variant="caption">
-            Please fill this form to create an account!
-          </Typography>
+            Please fill this from to create an account!
+            </Typography>
         </Grid>
         <Grid>
-          {error && <Alert severity="error">{error}</Alert>}
+          {errors.general && <Alert severity="error">{errors.general}</Alert>}
         </Grid>
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            type="email"
+            name="username"
+            label="Username"
+            variant="standard"
+            placeholder="Enter you username"
+            onChange={handleChange}
+            value={values.username}
+            error={touched.username && Boolean(errors.username)}
+            helperText={touched.username && errors.username}
+          />
+          <TextField
+            fullWidth
             name="email"
             label="Email"
             variant="standard"
-            placeholder="Enter your email"
+            placeholder="Enter you email"
             onChange={handleChange}
             value={values.email}
             error={touched.email && Boolean(errors.email)}
@@ -87,28 +86,37 @@ const RegisterPage = () => {
             name="password"
             label="Password"
             variant="standard"
-            placeholder="Enter your password"
+            placeholder="Enter you password"
             onChange={handleChange}
             value={values.password}
             error={touched.password && Boolean(errors.password)}
             helperText={touched.password && errors.password}
           />
+          <TextField
+            type="password"
+            name="confirmPassword"
+            fullWidth
+            label="Confirm Password"
+            variant="standard"
+            placeholder="Enter you comfirm password"
+            onChange={handleChange}
+            value={values.confirmPassword}
+            error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+            helperText={touched.confirmPassword && errors.confirmPassword}
+          />
           <Grid marginTop={3}>
             <Button
               fullWidth
-              textalign="center"
+              sx={{ textAlign: 'center' }}
               type="submit"
               variant="contained"
               color="primary"
-              disabled={registrationStatus === "loading"}
             >
-              {registrationStatus === "loading" ? "Loading..." : "Submit"}
-            </Button>
+              Sign Up
+              </Button>
           </Grid>
         </form>
       </Paper>
     </Grid>
   );
 };
-
-export default RegisterPage;

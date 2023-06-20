@@ -5,13 +5,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import './index.css';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import rootReducer from './slices/rootReducer';
+import userReducer from './store/userSlice';
 
 // Redux store'u oluşturun
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    userReducer: userReducer,
+  },
 });
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 app.use('/api/webuser', webUserRoutes)
 
 
-httpServer.listen(3004);
+httpServer.listen(3002);
 
 
 //ON - EMİT

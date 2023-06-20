@@ -2,9 +2,9 @@ import './App.css';
 import {Routes, Route } from "react-router-dom";
 import { Chat } from './pages/Chat';
 import { Layout } from './components/Layout';
-import { LoginPage } from './pages/Auth/Login';
-import Confirm from './pages/Auth/Confirm';
-import RegisterPage from './pages/Auth/RegisterPage';
+import {LoginPage} from "./pages/Auth/Login"
+import {RegisterPage} from "./pages/Auth/RegisterPage"
+import {Confirm} from "./pages/Auth/Confirm"
 
 
 function App() {
@@ -12,9 +12,10 @@ function App() {
     <Routes>
     <Route path="/" element={<Layout />}>
       <Route index element={<Chat />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/api/webuser/register" element={<RegisterPage />} />
-      <Route path="/api/webuser/confirm" element={<Confirm />} />
+      <Route path="/signin" element={<LoginPage />} />
+      <Route path="/signup" element={<RegisterPage />} />
+      <Route path="/confirm" element={<Confirm />} />
+
     </Route>
   </Routes>
   );
